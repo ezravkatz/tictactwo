@@ -23,7 +23,7 @@ function startTicTacToeGame() {
     } else {
       cpuPlayer.takeTurn();
     }
-    turn + 1;
+    turn++;
   }
 }
 
