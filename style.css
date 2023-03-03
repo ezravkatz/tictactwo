@@ -64,7 +64,7 @@ body {
   cursor: pointer;
   border: 1px solid rgba(107, 16, 39, 0.4);
   margin: 0 -1.5px;
-  transition: all 200ms ease-in-out;
+  transition: all 300ms ease-in-out;
   background-color: rgba(0, 0, 0, 0.3);
   color: white;
 }
@@ -105,11 +105,11 @@ body {
   z-index: 11;
   background-color: white;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  transition-duration: 200ms;
+  transition-duration: 300ms;
   transition-timing-function: ease-in-out;
 }
 
-.winner-screen .okay-button:focus {
+.winner-screen .replay-button:focus {
   border: none;
 }
 
@@ -126,7 +126,7 @@ body {
 }
 
 #new-game,
-.okay-button {
+.replay-button {
   padding: 10px 20px;
   color: white;
   background-color: #ee9a4d;
@@ -134,22 +134,22 @@ body {
   /* border: 2px yellow solid;
   border-radius: 4px; */
   margin: 40px 0;
-  transition: all 200ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
-.okay-button {
+.replay-button {
   background-color: purple;
 }
 
 #new-game:hover,
-.okay-button:hover {
+.replay-button:hover {
   transform: scale(1.15, 1.15);
   background-color: red;
   cursor: pointer;
 }
 
 #new-game:active,
-.okay-button:active {
+.replay-button:active {
   transition: none;
   background-color: maroon;
 }
@@ -191,7 +191,7 @@ body {
 }
 
 button {
-  font-family: Lato, Arial, Helvetica, sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   font-size: 20px;
 }
 
@@ -203,13 +203,13 @@ button {
 .fade-in {
   opacity: 1;
   visibility: visible;
-  transition: opacity 200ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
 }
 
 .fade-out {
   opacity: 0;
   visibility: hidden;
-  transition: visibility 0s 200ms, opacity 200ms ease-in-out;
+  transition: visibility 0s 300ms, opacity 300ms ease-in-out;
 }
 
 @media screen and (max-width: 991px) {
@@ -283,7 +283,7 @@ button {
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #fff;
+  background: white;
   animation: lds-grid 1.2s linear infinite;
 }
 .lds-grid div:nth-child(1) {

@@ -1,5 +1,4 @@
 var board = new Board();
-const positions = Array.from(document.querySelectorAll(".col"));
 const player = new humanPlayer(board);
 const cpu = new cpuPlayer(board);
 var turn = 0;
@@ -16,15 +15,15 @@ function startTicTacToeGame() {
   };
 
   function takeTurn() {
-    if (board.checkWinner()) {
-      return;
-    }
+    // if (board.checkWinner()) {
+    //   return;
+    // }
     if (turn % 2 === 0) {
       humanPlayer.takeTurn();
     } else {
       cpuPlayer.takeTurn();
     }
-    turn++;
+    turn + 1;
   }
 }
 
