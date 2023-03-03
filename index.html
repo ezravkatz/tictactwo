@@ -15,7 +15,7 @@
     <div class="container">
       <h1 class="welcome-text">
         Welcome to Ezra's Tic-Tac-Toe!<br />
-        <span class="mode-select">
+        <!-- <span class="mode-select">
           <span class="mode PvC" onclick="onGameModeChange('PvC', this)">
             1 Player
           </span>
@@ -25,7 +25,7 @@
           >
             2 Players
           </span>
-        </span>
+        </span> -->
       </h1>
       <div class="filler"></div>
       <div class="turn-indicator">
@@ -33,22 +33,27 @@
       </div>
       <div class="filler"></div>
       <div>
-        <input class="box" readonly type="text" id="0-0" />
-        <input class="box" readonly type="text" id="0-1" />
-        <input class="box" readonly type="text" id="0-2" />
+        <div class="row">
+          <div class="col box border-r"></div>
+          <div class="col box border-r"></div>
+          <div class="col box"></div>
+        </div>
+      </div>
+      <div>
+        <div class="row">
+          <div class="col box border-r"></div>
+          <div class="col box border-r"></div>
+          <div class="col box"></div>
+        </div>
+      </div>
+      <div>
+        <div class="row">
+          <div class="col box border-r"></div>
+          <div class="col box border-r"></div>
+          <div class="col box"></div>
+        </div>
       </div>
 
-      <div>
-        <input class="box" readonly type="text" id="1-0" />
-        <input class="box" readonly type="text" id="1-1" />
-        <input class="box" readonly type="text" id="1-2" />
-      </div>
-
-      <div>
-        <input class="box" readonly type="text" id="2-0" />
-        <input class="box" readonly type="text" id="2-1" />
-        <input class="box" readonly type="text" id="2-2" />
-      </div>
       <div class="button-wrapper">
         <button id="new-game" class="okay-button">New Game</button>
       </div>
@@ -57,7 +62,7 @@
         <div class="message-box">
           <div class="title">Game Over</div>
           <div class="body">Player X Won!</div>
-          <button class="okay-button">New Game</button>
+          <button class="okay-button">Play Again</button>
         </div>
       </div>
     </div>
@@ -78,6 +83,6 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/tictactoe.js"></script>
   </body>
 </html>
