@@ -80,3 +80,49 @@ function checkWin(isCheckOnly = false) {
     return findScore(os, isCheckOnly);
   }
 }
+
+function findScore(positions, isCheckOnly) {
+  if (
+    positions.filter((i) => {
+      return i.x == i.y;
+    }).length == 3
+  ) {
+    if (!isCheckOnly) displayWinner();
+    return "game over";
+  }
+
+  if (
+    positions.filter((i) => {
+      return (
+        (i.x == 0 && i.y == 2) ||
+        (i.x == 1 && i.y == 1) ||
+        (i.x == 2 && i.y == 0)
+      );
+    }).length == 3
+  ) {
+    if (!isCheckOnly) displayWinner();
+    return "game over";
+  }
+
+  for (var i = 0; i < 3; i++) {
+    var horizontalWin = positions.filter((p) => {
+      return p.x == i;
+    });
+    if (horizontalWin.length == 3) {
+      if (!isCheckOnly) displayWinner();
+      return "game over";
+    }
+    var verticalWin = positions.filter((p) => {
+      return p.y == i;
+    });
+    if (verticalWin.length == 3) {
+      if (!isCheckOnly) displayWinner();
+      return "game over";
+    }
+  }
+  if (positions.length == 5) {
+    if (!isCheckOnly) displayWinner(true);
+    return "game drawn";
+  }
+  return "game on";
+}
