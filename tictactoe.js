@@ -1,128 +1,84 @@
-var currentPlayer = "X";
-var playedBoxes = [];
-var turnNum = 0;
-var gameMode = "PvP";
+const ticTacToeGame = new TicTacToeGame();
+ticTacToeGame.start();
 
-document.querySelectorAll(".box").forEach((value, key) => {
-  value.addEventListener("click", () => {
-    onSelectBox(value);
-  });
-});
+function ticTacToeGame() {
+  const board = new Board();
+  const player = new Player(board);
+  const cpu = new CPU(board);
+  let turn = 0;
 
-function onChangeGameMode(mode, _el) {
-  if (_el.classList.contains("mode-selected")) return;
-  _el.classList.add("mode-selected");
-
-  if (mode == "PvP") {
-    document.querySelector(`.mode.PvC`).classList.remove("mode-selected");
-  } else if (mode == "PvC") {
-    document.querySelector(`.mode.PvP`).classList.remove("mode-selected");
-  }
-  gameMode = mode;
-  startGame();
-}
-
-function onSelectBox(element) {
-  selectedBoxes.push({ box: element.id, player: currentPlayer });
-  checkElement(element);
-  turnNum++;
-  var gameStat = checkWin();
-  changePlayer();
-  if (
-    turnNum % 2 == 1 &&
-    gameStat != "Game Over!" &&
-    gameStat != "Game Draw!" &&
-    gameMode == "PvC"
-  ) {
-    cpuPlays();
-  }
-}
-
-function onUnselectBox(element, isImplicit = false) {
-  selectedBoxes = selectedBoxes.filter((b) => b.box != element.id);
-  if (!isImplicit) {
-    element.value = "";
-    element.removeAttribute("disabled");
-    turnNum--;
-    changePlayer();
-  }
-}
-
-function changePlayer() {
-  currentPlayer = currentPlayer == "X" ? "O" : "X";
-  document.querySelector(".current-player").textContent = currentPlayer;
-}
-
-function checkWin(isCheckOnly = false) {
-  if (currentPlayer == "X") {
-    var xs = selectedBoxes
-      .filter((item) => {
-        return item.player == "X";
-      })
-      .map((value) => {
-        return {
-          x: Number(value.box.split("-")[0]),
-          y: Number(value.box.split("-")[1]),
-        };
-      });
-    return findScore(xs, isCheckOnly);
-  } else if (currentPlayer == "O") {
-    var os = selectedBoxes
-      .filter((item) => {
-        return item.player == "O";
-      })
-      .map((value) => {
-        return {
-          x: Number(value.box.split("-")[0]),
-          y: Number(value.box.split("-")[1]),
-        };
-      });
-    return findScore(os, isCheckOnly);
-  }
-}
-
-function findScore(positions, isCheckOnly) {
-  if (
-    positions.filter((i) => {
-      return i.x == i.y;
-    }).length == 3
-  ) {
-    if (!isCheckOnly) displayWinner();
-    return "game over";
-  }
-
-  if (
-    positions.filter((i) => {
-      return (
-        (i.x == 0 && i.y == 2) ||
-        (i.x == 1 && i.y == 1) ||
-        (i.x == 2 && i.y == 0)
-      );
-    }).length == 3
-  ) {
-    if (!isCheckOnly) displayWinner();
-    return "game over";
-  }
-
-  for (var i = 0; i < 3; i++) {
-    var horizontalWin = positions.filter((p) => {
-      return p.x == i;
-    });
-    if (horizontalWin.length == 3) {
-      if (!isCheckOnly) displayWinner();
-      return "game over";
+  this.start = function () {
+    const config = { childList: true };
+    const observer = new MutationObserver(() => takeTurn());
+    board.positions.forEach((el) => observer.observe(el, config));
+    takeTurn();
+  };
+  function takeTurn() {
+    if (board.checkWinner()) {
+      return;
     }
-    var verticalWin = positions.filter((p) => {
-      return p.y == i;
-    });
-    if (verticalWin.length == 3) {
-      if (!isCheckOnly) displayWinner();
-      return "game over";
+    if (turn % 2 === 0) {
+      player.takeTurn();
+    } else {
+      cpu.takeTurn();
     }
+    turn++;
   }
-  if (positions.length == 5) {
-    if (!isCheckOnly) displayWinner(true);
-    return "game drawn";
+}
+
+function Board() {
+  this.positions = Array.from(document.querySelectorAll(".col"));
+  this.checkWinner = function () {
+    let winner = false;
+    const winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 7],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    const positions = this.positions;
+
+    winningCombos.forEach((winningCombo) => {
+      const pos0InnerText = positions[winningCombo[0]].innerText;
+      const pos1InnerText = positions[winningCombo[1]].innerText;
+      const pos2InnerText = positions[winningCombo[2]].innerText;
+      const isWinningCombo =
+        pos0InnerText !== "" &&
+        pos0InnerText === pos1InnerText &&
+        pos1InnerText === pos2InnerText;
+
+      if (isWinningCombo) {
+        winner = true;
+        winningCombo.forEach((index) => {
+          positions[index].className += "winner";
+        });
+      }
+    });
+
+    return winner;
+  };
+}
+
+function Player(board) {
+  this.takeTurn = function () {
+    board.positions.forEach((el) => el.addEventListener("click", turnTaken));
+  };
+
+  function turnTaken(event) {
+    event.target.innerText = "X";
+    board.positions.forEach((el) => el.removeEventListener("click", turnTaken));
   }
-  return "game on";
+}
+
+function CPU(board) {
+  this.takeTurn = function () {
+    const openPositions = board.positions.filter((p) => p.innerText === "");
+    const move = Math.floor(Math.random() * openPositions.length);
+    openPositions[move].innerText = "O";
+  };
 }
